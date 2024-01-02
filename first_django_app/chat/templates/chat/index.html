@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Your content goes here -->
+{% if request.user.is_authenticated %}
+{% for message in messages %}
+<div>
+    <span class="colorGrey">{{message.created_at}}:</span> {{message.author}}:{{message.text}}
+
+</div>
+{% endfor %}
+<form action="/chat/" method="post">
+    <!-- django code, der automatisch im Hintergrund in html umgewandelt wird -->
+    {% csrf_token %}
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" name="textmessage" type="text" id="sample3">
+        <label class="mdl-textfield__label" for="sample3">Text...</label>
+    </div>
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+        Send
+    </button>
+</form>
+{% else %}
+<div>Nicht eingeloggt</div>
+<div>Bitte logge dich ein</div>
+<div>Bitte clicken <a href="/login/">hier</a></div>
+
+{% endif %}
+{% endblock %}

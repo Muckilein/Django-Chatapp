@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Register Page</h1>
+<!-- Post wird zu register gesendet -->
+{% if unequalPasswords %}
+    <div style="color:red">Passwörter sind nicht gleich</div>
+{% endif %}
+<form method="POST" action="/register/">
+    {% csrf_token %}
+    <input type="hidden" name="redirect" value="{{redirect}}">
+    <div>
+        username<br>
+        <input name="username" type="text">
+    </div>
+    <div>
+        password<br>
+        <input name="password" type="password"></div>
+    <div>
+        repeat password<br>
+        <input name="passwordrepeat" type="password">
+    </div>
+    <div style="margin-top: 25px;"><button>register</button></div>
+</form>
+{% endblock %}
