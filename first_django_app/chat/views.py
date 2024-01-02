@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Chat,Message
-from .form import CreateUserForm
+# from .form import CreateUserForm
 
 # Create your views here.
 @login_required(login_url='/login/')
@@ -30,11 +30,14 @@ def loginView(request):
 
 def register(request): 
     print('kick register') 
-    form = CreateUserForm()  
+    form = UserCreationForm()  
     if request.method == 'POST':
-        form = CreateUserForm(request.POST())
+        form = UserCreationForm(request.POST())
         if form.is_valid():
-            form.save()
-            return redirect("login/")
+             form.save()
+             return redirect("login/")
+        else:
+            return render(request,'auth/register.html',{'invalidData':True})
+
     context = { 'registerForm': form}     
     return render(request,'auth/register.html',context = context)
