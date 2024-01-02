@@ -7,7 +7,9 @@
 {% endif %}
 <form method="POST" action="/register/">
     {% csrf_token %}
-    <input type="hidden" name="redirect" value="{{redirect}}">
+    {{registerForm.as_p}}
+    <input type="submit" value = "Register">
+    <!-- <input type="hidden" name="redirect" value="{{redirect}}">
     <div>
         username<br>
         <input name="username" type="text">
@@ -19,6 +21,6 @@
         repeat password<br>
         <input name="passwordrepeat" type="password">
     </div>
-    <div style="margin-top: 25px;"><button>register</button></div>
+    <div style="margin-top: 25px;"><button>register</button></div> -->
 </form>
 {% endblock %}

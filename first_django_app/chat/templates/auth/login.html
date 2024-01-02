@@ -11,5 +11,10 @@
     <div><input name="password" type="password"></div>
     <div><button>Login</button></div>
 </form>
+{% if not request.user.is_authenticated %}
 <div>Noch keinen Account: <a href="/register/" class="colorBlue">registrieren</a></div>
+{% endif %}
+{% if request.user.is_authenticated %}
+<div>You are allready logged in</div>
+{% endif %}
 {% endblock %}

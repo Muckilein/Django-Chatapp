@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.urls import reverse
 from .models import Chat,Message
+from .form import CreateUserForm
 
 # Create your views here.
 @login_required(login_url='/login/')
@@ -28,15 +29,12 @@ def loginView(request):
     return render(request,'auth/login.html',{'redirect':redirect})
 
 def register(request): 
-    print('kick register')   
-    if request.method == 'POST': 
-        username = request.POST['username']
-        password = request.POST['password']
-        passwordrepeat = request.POST['passwordrepeat']
-        if password != passwordrepeat:
-             return render(request,'auth/register.html',{'unequalPasswords':True})
-        else:
-             return HttpResponseRedirect('/login/')
-            
-        # newUser = User.objects.get(username=request.POST['textmessage'])
-    return render(request,'auth/register.html',{'unequalPasswords':False})
+    print('kick register') 
+    form = CreateUserForm()  
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST())
+        if form.is_valid():
+            form.save()
+            return redirect("login/")
+    context = { 'registerForm': form}     
+    return render(request,'auth/register.html',context = context)
