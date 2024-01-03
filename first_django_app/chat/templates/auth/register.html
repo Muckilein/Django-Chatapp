@@ -2,9 +2,6 @@
 {% block content %}
 <h1>Register Page</h1>
 <!-- Post wird zu register gesendet -->
-{% if unequalPasswords %}
-    <div style="color:red">Passwörter sind nicht gleich</div>
-{% endif %}
 <form method="POST" action="/register/">
     {% csrf_token %}
     {{registerForm.as_p}}
@@ -24,6 +21,6 @@
     <div style="margin-top: 25px;"><button>register</button></div> -->
 </form>
 {% if invalidData %}
-    <span>Data</span>
+    <span>Data invalid</span>
 {% endif %}
 {% endblock %}

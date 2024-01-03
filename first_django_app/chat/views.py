@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Chat,Message
+from django.http import JsonResponse
 # from .form import CreateUserForm
 
 # Create your views here.
@@ -13,9 +14,10 @@ def index(request):
     if request.method == 'POST':
         print("Received data "+ request.POST['textmessage']) 
         myChat = Chat.objects.get(id=1)
-        Message.objects.create(text = request.POST['textmessage'],chat = myChat, author = request.user, receiver = request.user) 
+        newMessage = Message.objects.create(text = request.POST['textmessage'],chat = myChat, author = request.user, receiver = request.user) 
     chatMessages = Message.objects.filter(chat__id = 1)
     return render(request,'chat/index.html',{'username':'Julia','messages':chatMessages})
+    # return render(request,JsonResponse({'message': newMessage}),{'username':'Julia','messages':chatMessages})
 
 def loginView(request):
     redirect = request.GET.get('next')
@@ -32,10 +34,10 @@ def register(request):
     print('kick register') 
     form = UserCreationForm()  
     if request.method == 'POST':
-        form = UserCreationForm(request.POST())
+        form = UserCreationForm(request.POST)
         if form.is_valid():
              form.save()
-             return redirect("login/")
+             return redirect("/login/")
         else:
             return render(request,'auth/register.html',{'invalidData':True})
 
